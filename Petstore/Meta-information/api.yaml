@@ -17,6 +17,6 @@ availableTiers:
 status: PUBLISHED
 visibility: public
 transports: http,https
-productionUrl: http://localhost:8080
-sandboxUrl: http://localhost:8081
+productionUrl: http://localhost:8099
+sandboxUrl: http://localhost:8099
 enableStore: true

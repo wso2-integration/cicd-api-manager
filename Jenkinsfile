@@ -2,7 +2,7 @@ pipeline {
 
     agent {
         node {
-            label 'dev'
+            label 'master'
         }
     }
     environment { 

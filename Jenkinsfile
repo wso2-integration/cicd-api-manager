@@ -2,12 +2,11 @@ pipeline {
 
     agent {
         node {
-            label 'master'
+            label 'dev'
         }
     }
     environment { 
         PATH = "/root/apictl:$PATH"
-        ADMIN = credentials('admin_user')
     }
     options {
         buildDiscarder logRotator( 
@@ -23,7 +22,7 @@ pipeline {
                 sh """#!/bin/bash
                 ENVCOUNT=\$(apictl list envs --format {{.}} | wc -l)
                 if [ "\$ENVCOUNT" == "0" ]; then
-                    apictl add-env -e dev --apim https://dev.mycorp.com:9443
+                    apictl add-env -e dev --apim https://localhost:9443
                 fi
                 """
             }
@@ -32,17 +31,10 @@ pipeline {
         stage('Deploy APIs To "Dev" Environment') {
             steps {
                 sh """
-                apictl login dev -u \$ADMIN_USR -p \$ADMIN_PSW -k
+                apictl login dev -u admin -p admin
                 apictl vcs deploy -e dev
                 """
             }
         }
-    }
-    post { 
-        always { 
-            sh """
-            apictl logout dev
-            """
-        }
-    }
+    }   
 }
